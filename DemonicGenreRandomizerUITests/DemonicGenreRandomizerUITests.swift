@@ -23,12 +23,20 @@ final class DemonicGenreRandomizerUITests: XCTestCase {
     }
 
     @MainActor
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    func testGenerateAndCopyFlow() throws {
         let app = XCUIApplication()
         app.launch()
 
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let copyButton = app.buttons["Kopieren"]
+        XCTAssertTrue(copyButton.waitForExistence(timeout: 5))
+        XCTAssertFalse(copyButton.isEnabled)
+        XCTAssertTrue(app.staticTexts["Wähle die Anzahl und generiere deinen Genre-Mix."].exists)
+
+        app.buttons["Generieren"].tap()
+        XCTAssertTrue(copyButton.isEnabled)
+
+        copyButton.tap()
+        XCTAssertTrue(app.buttons["Kopiert!"].waitForExistence(timeout: 2))
     }
 
     @MainActor
